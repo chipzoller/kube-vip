@@ -16,6 +16,7 @@ These flags are typically used in the `kube-vip` manifest generation process.
 |                     | `--bgp`                | Enables BGP peering from `kube-vip`                                |                                                                                 |
 |                     | `--vip`                | `<IP Address>`                                                     | (deprecated)                                                                    |
 |                     | `--address`            | `<IP Address>` or `<DNS name>`                                     |                                                                                 |
+|                     | `--ddns`               | Enables DDNS support                                               | Requires `--address` is used and set to FQDN                                    |
 |                     | `--interface`          | Linux interface on the node                                        |                                                                                 |
 |                     | `--leaderElection`     | Enables Kubernetes LeaderElection                                  | Used by ARP, as only the leader can broadcast                                   |
 |                     | `--enableLoadBalancer` | Enables IPVS load balancer                                         | `kube-vip` ≥ 0.4.0                                                              |
@@ -66,6 +67,7 @@ More environment variables can be read through the `pkg/kubevip/config_envvar.go
 |                     | `bgp_enable`          | Enables BGP peering from `kube-vip`                         |                                                                                 |
 |                     | `vip_address`         | `<IP Address>`                                              | (deprecated)                                                                    |
 |                     | `address`             | `<IP Address>` or `<DNS name>`                              |                                                                                 |
+|                     | `vip_ddns`            | Boolean. Enables Dynamic DNS support.                       | Requires `vip_address` is set to FQDN                                           |
 |                     | `vip_interface`       | `<linux interface>`                                         |                                                                                 |
 |                     | `vip_leaderelection`  | Enables Kubernetes LeaderElection                           | Used by ARP, as only the leader can broadcast                                   |
 |                     | `lb_enable`           | Enables IPVS LoadBalancer                                   | `kube-vip` ≥ 0.4.0. Adds nodes to the IPVS load balancer                        |

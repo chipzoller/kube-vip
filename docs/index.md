@@ -2,7 +2,9 @@
 
 ## Overview
 
-Kube-Vip provides Kubernetes clusters a virtual IP and load balancer for both control plane and Kubernetes Services.
+Kube-Vip provides Kubernetes clusters with a virtual IP and load balancer for both the control plane (for building a highly-available cluster) and Kubernetes Services of type `LoadBalancer` without relying on any external hardware or software.
+
+Current solutions for building a highly-available Kubernetes cluster, when not in the cloud, often involve external hardware, which can be expensive, or external software, which can be complex and difficult to manage. For Kubernetes Service resources of type `LoadBalancer`, you are once again on your own if not in a PaaS environment. Kube-Vip addresses both of these by packaging them together and running them inside the same Kubernetes cluster they service, simplifying complexity, reducing cost as well as build times.
 
 The idea behind `kube-vip` is a small, self-contained, highly-available option for all environments, especially:
 
@@ -16,22 +18,25 @@ The idea behind `kube-vip` is a small, self-contained, highly-available option f
 
 Kube-Vip was originally created to provide a HA solution for the Kubernetes control plane, but over time it has evolved to incorporate that same functionality for Kubernetes Services of type [LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer). Some of the features include:
 
-- VIP addresses can be either IPv4 or IPv6
-- Control Plane with ARP (Layer 2) or BGP (Layer 3)
-- Control Plane using either [leader election](https://godoc.org/k8s.io/client-go/tools/leaderelection) or [raft](https://en.wikipedia.org/wiki/Raft_(computer_science))
-- Control Plane HA with kubeadm (static Pods)
-- Control Plane HA with K3s/and others (DaemonSets)
-- Control Plane LoadBalancing with IPVS (kube-vip ≥ 0.4)
-- Service LoadBalancer using [leader election](https://godoc.org/k8s.io/client-go/tools/leaderelection) for ARP (Layer 2)
-- Service LoadBalancer using multiple nodes with BGP
-- Service LoadBalancer address pools per namespace or global
-- Service LoadBalancer address via (existing network DHCP)
-- Service LoadBalancer address exposure to gateway via UPnP
-- ... manifest generation, vendor API integrations and many more...
+- VIP addresses can be IPv4, IPv6, or DNS name
+- Control plane load balancing:
+  - Floating IP in ARP (Layer 2) or BGP (Layer 3) modes
+  - Uses [leader election](https://godoc.org/k8s.io/client-go/tools/leaderelection)
+  - Support for `kubeadm`-provisioned clusters (via static Pods)
+  - Support for K3s and others (via DaemonSets)
+  - [IPVS](https://en.wikipedia.org/wiki/IP_Virtual_Server) mode for true load balancing (kube-vip ≥ 0.4)
+- Service of type `LoadBalancer`:
+  - Uses [leader election](https://godoc.org/k8s.io/client-go/tools/leaderelection) for ARP (Layer 2)
+  - Multiple nodes with BGP
+  - Address pools scoped per Namespace or global
+  - Addresses from CIDR blocks or IP ranges
+  - DHCP support
+  - Exposure to gateways via UPnP
+- Automated manifest generation, vendor API integrations, and much more...
 
 ## Why?
 
-The "original" purpose of `kube-vip` was to simplify the building of HA Kubernetes clusters, which at the time involved a few components and configurations that all needed to be managed. This was blogged about in detail by [thebsdbox](https://twitter.com/thebsdbox/) [here](https://thebsdbox.co.uk/2020/01/02/Designing-Building-HA-bare-metal-Kubernetes-cluster/#Networking-load-balancing). Since the project has evolved, it can now use those same technologies to provide load balancing capabilities within a Kubernetes Cluster.
+The "original" purpose of `kube-vip` was to simplify the building of highly-available (HA) Kubernetes clusters, which at the time involved a few components and configurations that all needed to be managed. This was blogged about in detail by [thebsdbox](https://twitter.com/thebsdbox/) [here](https://thebsdbox.co.uk/2020/01/02/Designing-Building-HA-bare-metal-Kubernetes-cluster/#Networking-load-balancing). Since the project has evolved, it can now use those same technologies to provide load balancing capabilities for Kubernetes Service resources of type `LoadBalancer`.
 
 ## Architecture
 
