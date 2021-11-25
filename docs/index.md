@@ -25,10 +25,11 @@ Kube-Vip was originally created to provide a HA solution for the Kubernetes cont
   - Support for `kubeadm`-provisioned clusters (via static Pods)
   - Support for K3s and others (via DaemonSets)
   - [IPVS](https://en.wikipedia.org/wiki/IP_Virtual_Server) mode for true load balancing (kube-vip ≥ 0.4)
+  - Dynamic DNS support
 - Service of type `LoadBalancer`:
   - Uses [leader election](https://godoc.org/k8s.io/client-go/tools/leaderelection) for ARP (Layer 2)
   - Multiple nodes with BGP
-  - Address pools scoped per Namespace or global
+  - Address pools scoped per Namespace or cluster
   - Addresses from CIDR blocks or IP ranges
   - DHCP support
   - Exposure to gateways via UPnP
