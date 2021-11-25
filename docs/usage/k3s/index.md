@@ -44,7 +44,7 @@ Either store this generated manifest separately in the `/var/lib/rancher/k3s/ser
 
 ## Step 4: Install a HA K3s Cluster
 
-There are multiple ways to install K3s including `[k3sup](https://k3sup.dev/)` or [running the binary](https://rancher.com/docs/k3s/latest/en/quick-start/) locally. Whichever method you choose, the `--tls-san` flag must be passed with the same IP when generating the `kube-vip` DaemonSet manifest when installing the first server (control plane) instance. This is so that K3s generates an API server certificate with the `kube-vip` virtual IP address.
+There are multiple ways to install K3s including [`k3sup`](https://k3sup.dev/) or [running the binary](https://rancher.com/docs/k3s/latest/en/quick-start/) locally. Whichever method you choose, the `--tls-san` flag must be passed with the same IP when generating the `kube-vip` DaemonSet manifest when installing the first server (control plane) instance. This is so that K3s generates an API server certificate with the `kube-vip` virtual IP address.
 
 Once the cluster is installed, you should be able to edit the `kubeconfig` file generated from the process and use the `kube-vip` VIP address to access the control plane.
 
